@@ -1,0 +1,3611 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sendero — Gestión clínica para profesionales de la salud mental</title>
+    <meta name="description"
+        content="La plataforma que reemplaza el papel, el Excel y el caos. Gestioná pacientes, sesiones y agenda desde un solo lugar." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --g50: #edfaf4;
+            --g100: #d3f4e6;
+            --g200: #a9e8cd;
+            --g300: #6fd5ae;
+            --g400: #3aba8a;
+            --g500: #22a076;
+            --g600: #1a8361;
+            --g700: #16684d;
+            --g800: #12523d;
+            --g900: #0e4331;
+            --g950: #082b20;
+
+            --s50: #f8fafc;
+            --s100: #f1f5f9;
+            --s200: #e2e8f0;
+            --s300: #cbd5e1;
+            --s400: #94a3b8;
+            --s500: #64748b;
+            --s600: #475569;
+            --s700: #334155;
+            --s800: #1e293b;
+            --s900: #0f172a;
+            --s950: #020617;
+
+            --amber: #f59e0b;
+            --red: #ef4444;
+
+            --serif: 'Cormorant', Georgia, serif;
+            --sans: 'Outfit', system-ui, sans-serif;
+
+            --r-sm: 8px;
+            --r-md: 12px;
+            --r-lg: 18px;
+            --r-xl: 24px;
+            --r-2xl: 32px;
+            --r-full: 9999px;
+
+            --sh-sm: 0 1px 3px rgb(0 0 0/.06);
+            --sh-md: 0 4px 16px rgb(0 0 0/.08);
+            --sh-lg: 0 16px 48px rgb(0 0 0/.1);
+            --sh-xl: 0 32px 80px rgb(0 0 0/.12);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--sans);
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--s900);
+            background: #fff;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--g300);
+            border-radius: 99px;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* ── Layout ── */
+        .wrap {
+            width: 100%;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        /* ── Tags ── */
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--g700);
+            background: var(--g50);
+            border: 1px solid var(--g200);
+            border-radius: var(--r-full);
+            padding: 5px 13px;
+            margin-bottom: 18px;
+        }
+
+        .eyebrow-dot {
+            width: 5px;
+            height: 5px;
+            background: var(--g500);
+            border-radius: 50%;
+        }
+
+        /* ── Typography ── */
+        .display {
+            font-family: var(--serif);
+            font-weight: 500;
+            line-height: 1.1;
+            letter-spacing: -.01em;
+        }
+
+        .display em {
+            font-style: italic;
+            color: var(--g600);
+        }
+
+        .h1 {
+            font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+        }
+
+        .h2 {
+            font-size: clamp(2rem, 3.5vw, 3rem);
+        }
+
+        .h3 {
+            font-size: 1.4rem;
+            font-family: var(--serif);
+            font-weight: 500;
+        }
+
+        .lead {
+            font-size: 1.1rem;
+            color: var(--s600);
+            line-height: 1.75;
+        }
+
+        .muted {
+            color: var(--s500);
+            font-size: .875rem;
+        }
+
+        /* ── Buttons ── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--sans);
+            font-size: .9rem;
+            font-weight: 600;
+            border-radius: var(--r-full);
+            padding: 13px 28px;
+            cursor: pointer;
+            border: none;
+            transition: all .2s ease;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .btn-lg {
+            padding: 16px 36px;
+            font-size: 1rem;
+        }
+
+        .btn-sm {
+            padding: 9px 20px;
+            font-size: .82rem;
+        }
+
+        .btn-green {
+            background: var(--g600);
+            color: #fff;
+        }
+
+        .btn-green:hover {
+            background: var(--g700);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgb(26 131 97/.35);
+        }
+
+        .btn-white {
+            background: #fff;
+            color: var(--g700);
+        }
+
+        .btn-white:hover {
+            background: var(--g50);
+            transform: translateY(-1px);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--s700);
+            border: 1.5px solid var(--s300);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--s400);
+            background: var(--s50);
+        }
+
+        .btn-ghost-white {
+            background: transparent;
+            color: rgb(255 255 255/.85);
+            border: 1.5px solid rgb(255 255 255/.25);
+        }
+
+        .btn-ghost-white:hover {
+            background: rgb(255 255 255/.08);
+            border-color: rgb(255 255 255/.5);
+        }
+
+        /* ── Scroll reveal ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity .65s ease, transform .65s ease;
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: none;
+        }
+
+        .reveal[data-delay="1"] {
+            transition-delay: .1s;
+        }
+
+        .reveal[data-delay="2"] {
+            transition-delay: .2s;
+        }
+
+        .reveal[data-delay="3"] {
+            transition-delay: .3s;
+        }
+
+        .reveal[data-delay="4"] {
+            transition-delay: .4s;
+        }
+
+        .reveal[data-delay="5"] {
+            transition-delay: .5s;
+        }
+
+        /* ════════════════════════════════════
+     NAV
+  ════════════════════════════════════ */
+        #nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            transition: background .3s, box-shadow .3s;
+        }
+
+        #nav.solid {
+            background: rgb(255 255 255/.97);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 1px 0 var(--s200);
+        }
+
+        .nav-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 68px;
+        }
+
+        .nav-logo {
+            font-family: var(--serif);
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -.02em;
+            transition: color .3s;
+        }
+
+        #nav.solid .nav-logo {
+            color: var(--s900);
+        }
+
+        .nav-logo-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            background: var(--g400);
+            border-radius: 50%;
+            margin-left: 2px;
+            vertical-align: middle;
+            margin-bottom: 4px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: .875rem;
+            font-weight: 500;
+            color: rgb(255 255 255/.75);
+            transition: color .2s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        #nav.solid .nav-links a {
+            color: var(--s600);
+        }
+
+        #nav.solid .nav-links a:hover {
+            color: var(--s900);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* ════════════════════════════════════
+     HERO
+  ════════════════════════════════════ */
+        #hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: var(--g950);
+            overflow: hidden;
+        }
+
+        /* Gradient mesh */
+        .hero-mesh {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 60% 70% at 80% 20%, rgb(26 131 97/.4) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 60% at 10% 80%, rgb(14 67 49/.6) 0%, transparent 55%),
+                radial-gradient(ellipse 40% 40% at 50% 50%, rgb(22 160 118/.15) 0%, transparent 50%);
+        }
+
+        /* Grid pattern overlay */
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgb(255 255 255/.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgb(255 255 255/.03) 1px, transparent 1px);
+            background-size: 48px 48px;
+        }
+
+        /* SVG sendero path */
+        .hero-trail {
+            position: absolute;
+            right: -40px;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            opacity: .06;
+            pointer-events: none;
+        }
+
+        .hero-body {
+            position: relative;
+            z-index: 10;
+            padding-top: 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .hero-body {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .hero-visual {
+                display: none;
+            }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--g300);
+            background: rgb(255 255 255/.06);
+            border: 1px solid rgb(255 255 255/.12);
+            border-radius: var(--r-full);
+            padding: 7px 14px;
+            margin-bottom: 28px;
+        }
+
+        .badge-pulse {
+            width: 6px;
+            height: 6px;
+            background: var(--g400);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .3
+            }
+        }
+
+        .hero-title {
+            font-family: var(--serif);
+            font-size: clamp(2.6rem, 5vw, 4.2rem);
+            font-weight: 500;
+            line-height: 1.1;
+            color: #fff;
+            margin-bottom: 22px;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--g300);
+        }
+
+        .hero-sub {
+            font-size: 1.05rem;
+            color: rgb(255 255 255/.6);
+            line-height: 1.8;
+            max-width: 480px;
+            margin-bottom: 36px;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 48px;
+        }
+
+        .hero-proof {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: .8rem;
+            color: rgb(255 255 255/.4);
+        }
+
+        .hero-proof-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero-proof-item svg {
+            color: var(--g400);
+            flex-shrink: 0;
+        }
+
+        .hero-sep {
+            width: 1px;
+            height: 16px;
+            background: rgb(255 255 255/.15);
+        }
+
+        /* ── Hero UI mockup ── */
+        .hero-visual {
+            position: relative;
+        }
+
+        .mockup-card {
+            background: rgb(255 255 255/.04);
+            border: 1px solid rgb(255 255 255/.1);
+            border-radius: var(--r-xl);
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .mockup-topbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgb(255 255 255/.08);
+        }
+
+        .mockup-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .mockup-title-bar {
+            margin-left: 8px;
+            flex: 1;
+            height: 8px;
+            background: rgb(255 255 255/.1);
+            border-radius: 4px;
+        }
+
+        .mockup-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            background: rgb(255 255 255/.04);
+            border: 1px solid rgb(255 255 255/.07);
+            border-radius: var(--r-md);
+            margin-bottom: 8px;
+        }
+
+        .mockup-row.active {
+            background: rgb(26 131 97/.2);
+            border-color: rgb(26 131 97/.35);
+        }
+
+        .mockup-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .72rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .mockup-line {
+            height: 7px;
+            border-radius: 3px;
+            background: rgb(255 255 255/.12);
+        }
+
+        .mockup-line.sm {
+            width: 60%;
+        }
+
+        .mockup-line.xs {
+            width: 40%;
+            margin-top: 5px;
+            background: rgb(255 255 255/.07);
+        }
+
+        .mockup-status {
+            margin-left: auto;
+            font-size: .65rem;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: var(--r-full);
+        }
+
+        .mockup-mini {
+            position: absolute;
+            right: -28px;
+            bottom: -28px;
+            background: rgb(8 43 32/.95);
+            border: 1px solid rgb(255 255 255/.12);
+            border-radius: var(--r-lg);
+            padding: 16px 18px;
+            width: 220px;
+            backdrop-filter: blur(16px);
+            box-shadow: var(--sh-xl);
+        }
+
+        .mockup-mini-label {
+            font-size: .65rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--g300);
+            margin-bottom: 8px;
+        }
+
+        .mockup-stat {
+            font-family: var(--serif);
+            font-size: 2rem;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .mockup-stat-sub {
+            font-size: .75rem;
+            color: rgb(255 255 255/.45);
+            margin-top: 3px;
+        }
+
+        /* ════════════════════════════════════
+     TRUST BAR
+  ════════════════════════════════════ */
+        #trust {
+            background: var(--s50);
+            border-top: 1px solid var(--s200);
+            border-bottom: 1px solid var(--s200);
+            padding: 28px 0;
+        }
+
+        .trust-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--s600);
+        }
+
+        .trust-item svg {
+            color: var(--g500);
+            flex-shrink: 0;
+        }
+
+        .trust-sep {
+            width: 1px;
+            height: 20px;
+            background: var(--s300);
+        }
+
+        @media (max-width: 640px) {
+            .trust-sep {
+                display: none;
+            }
+        }
+
+        /* ════════════════════════════════════
+     DOLOR / PAIN SECTION
+  ════════════════════════════════════ */
+        #dolor {
+            background: #fff;
+        }
+
+        .dolor-header {
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto 56px;
+        }
+
+        .dolor-header .lead {
+            margin: 0 auto;
+        }
+
+        .dolor-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .dolor-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .dolor-card {
+            border: 1px solid var(--s200);
+            border-radius: var(--r-xl);
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dolor-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ef4444, #f97316);
+            opacity: .7;
+        }
+
+        .dolor-icon {
+            width: 44px;
+            height: 44px;
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            border-radius: var(--r-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .dolor-icon svg {
+            width: 20px;
+            height: 20px;
+            color: #e11d48;
+        }
+
+        .dolor-title {
+            font-weight: 700;
+            color: var(--s800);
+            margin-bottom: 8px;
+            font-size: .95rem;
+        }
+
+        .dolor-desc {
+            font-size: .875rem;
+            color: var(--s600);
+            line-height: 1.65;
+        }
+
+        /* ════════════════════════════════════
+     STATS BAR
+  ════════════════════════════════════ */
+        #stats {
+            background: var(--g950);
+            padding: 60px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 28px 20px;
+            border-right: 1px solid rgb(255 255 255/.08);
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        @media (max-width: 768px) {
+            .stat-item:nth-child(2) {
+                border-right: none;
+            }
+        }
+
+        .stat-number {
+            font-family: var(--serif);
+            font-size: clamp(2.4rem, 4vw, 3.4rem);
+            font-weight: 600;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .stat-number em {
+            font-style: italic;
+            color: var(--g300);
+        }
+
+        .stat-label {
+            font-size: .8rem;
+            color: rgb(255 255 255/.45);
+            font-weight: 500;
+            letter-spacing: .03em;
+        }
+
+        /* ════════════════════════════════════
+     FEATURES / MÓDULOS
+  ════════════════════════════════════ */
+        #features {
+            background: var(--s50);
+        }
+
+        .features-header {
+            margin-bottom: 56px;
+        }
+
+        .features-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .features-layout {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        .feature-tabs {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .ftab {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px 22px;
+            border-radius: var(--r-lg);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all .2s;
+            background: transparent;
+        }
+
+        .ftab:hover {
+            background: #fff;
+            border-color: var(--s200);
+        }
+
+        .ftab.active {
+            background: #fff;
+            border-color: var(--g200);
+            box-shadow: var(--sh-md);
+        }
+
+        .ftab-icon {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+            border-radius: var(--r-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--g50);
+            border: 1px solid var(--g100);
+            transition: all .2s;
+        }
+
+        .ftab.active .ftab-icon {
+            background: var(--g600);
+            border-color: transparent;
+        }
+
+        .ftab-icon svg {
+            width: 20px;
+            height: 20px;
+            color: var(--g600);
+        }
+
+        .ftab.active .ftab-icon svg {
+            color: #fff;
+        }
+
+        .ftab-text {
+            flex: 1;
+        }
+
+        .ftab-name {
+            font-weight: 700;
+            color: var(--s800);
+            margin-bottom: 3px;
+            font-size: .95rem;
+        }
+
+        .ftab-desc {
+            font-size: .84rem;
+            color: var(--s500);
+            line-height: 1.55;
+        }
+
+        .ftab.active .ftab-name {
+            color: var(--g700);
+        }
+
+        .ftab.active .ftab-desc {
+            color: var(--s600);
+        }
+
+        /* Feature detail panel */
+        .feature-panel {
+            position: sticky;
+            top: 100px;
+        }
+
+        .fpanel {
+            display: none;
+            background: #fff;
+            border: 1px solid var(--s200);
+            border-radius: var(--r-2xl);
+            padding: 36px;
+            box-shadow: var(--sh-lg);
+        }
+
+        .fpanel.active {
+            display: block;
+        }
+
+        .fpanel-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--g700);
+            background: var(--g50);
+            border: 1px solid var(--g200);
+            border-radius: var(--r-full);
+            padding: 4px 11px;
+            margin-bottom: 16px;
+        }
+
+        .fpanel-title {
+            font-family: var(--serif);
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--s900);
+            margin-bottom: 12px;
+        }
+
+        .fpanel-desc {
+            font-size: .95rem;
+            color: var(--s600);
+            line-height: 1.75;
+            margin-bottom: 24px;
+        }
+
+        .fpanel-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .fpanel-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: .9rem;
+            color: var(--s700);
+        }
+
+        .fpanel-list li svg {
+            color: var(--g500);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .fpanel-visual {
+            margin-top: 28px;
+            padding-top: 24px;
+            border-top: 1px solid var(--s100);
+        }
+
+        .fpanel-stat-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .fpanel-stat {
+            flex: 1;
+            padding: 16px;
+            background: var(--s50);
+            border: 1px solid var(--s200);
+            border-radius: var(--r-lg);
+            text-align: center;
+        }
+
+        .fpanel-stat-num {
+            font-family: var(--serif);
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--g700);
+            line-height: 1;
+        }
+
+        .fpanel-stat-label {
+            font-size: .72rem;
+            color: var(--s500);
+            margin-top: 4px;
+            font-weight: 600;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
+
+        /* ════════════════════════════════════
+     MULTI-PROFESIONAL
+  ════════════════════════════════════ */
+        #multi {
+            background: #fff;
+        }
+
+        .multi-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .multi-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        .multi-checks {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 24px;
+        }
+
+        .multi-checks li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: .95rem;
+            color: var(--s700);
+            line-height: 1.5;
+        }
+
+        .check-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--g100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .check-icon svg {
+            width: 11px;
+            height: 11px;
+            color: var(--g700);
+        }
+
+        /* Patient hub visual */
+        .patient-hub {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hub-center {
+            background: var(--g950);
+            color: #fff;
+            border-radius: var(--r-2xl);
+            padding: 18px 28px;
+            text-align: center;
+            width: 200px;
+            border: 2px solid var(--g700);
+            box-shadow: 0 0 0 6px var(--g100);
+        }
+
+        .hub-name {
+            font-family: var(--serif);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .hub-label {
+            font-size: .7rem;
+            color: var(--g300);
+            font-weight: 600;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .hub-connector {
+            width: 2px;
+            height: 20px;
+            background: linear-gradient(var(--g300), var(--g200));
+            margin: 0 auto;
+        }
+
+        .hub-row {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .hub-prof {
+            flex: 1;
+            max-width: 160px;
+            background: #fff;
+            border: 1px solid var(--s200);
+            border-radius: var(--r-lg);
+            padding: 14px 12px;
+            text-align: center;
+            box-shadow: var(--sh-sm);
+            transition: all .25s;
+        }
+
+        .hub-prof:hover {
+            border-color: var(--g300);
+            box-shadow: var(--sh-md);
+            transform: translateY(-2px);
+        }
+
+        .hub-prof-av {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin: 0 auto 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: .8rem;
+        }
+
+        .hub-prof-name {
+            font-size: .78rem;
+            font-weight: 700;
+            color: var(--s800);
+        }
+
+        .hub-prof-role {
+            font-size: .68rem;
+            color: var(--s500);
+            margin-top: 2px;
+        }
+
+        .hub-badge {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: .62rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: var(--r-full);
+        }
+
+        .hub-badge-priv {
+            background: var(--s100);
+            color: var(--s600);
+        }
+
+        .hub-badge-shared {
+            background: var(--g100);
+            color: var(--g700);
+        }
+
+        /* ════════════════════════════════════
+     ROLES
+  ════════════════════════════════════ */
+        #roles {
+            background: var(--s50);
+        }
+
+        .roles-header {
+            text-align: center;
+            max-width: 580px;
+            margin: 0 auto 56px;
+        }
+
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .roles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .role-card {
+            border-radius: var(--r-2xl);
+            padding: 36px 30px;
+            border: 1px solid var(--s200);
+            background: #fff;
+            transition: all .25s;
+        }
+
+        .role-card:hover {
+            box-shadow: var(--sh-lg);
+            transform: translateY(-4px);
+        }
+
+        .role-card.featured {
+            background: var(--g950);
+            border-color: transparent;
+        }
+
+        .role-n {
+            font-family: var(--serif);
+            font-size: 3rem;
+            font-weight: 600;
+            font-style: italic;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .role-card:not(.featured) .role-n {
+            color: var(--g200);
+        }
+
+        .role-card.featured .role-n {
+            color: var(--g700);
+        }
+
+        .role-name {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .role-card:not(.featured) .role-name {
+            color: var(--s900);
+        }
+
+        .role-card.featured .role-name {
+            color: #fff;
+        }
+
+        .role-tag {
+            display: inline-block;
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: var(--r-full);
+            margin-bottom: 18px;
+        }
+
+        .role-card:not(.featured) .role-tag {
+            background: var(--g50);
+            color: var(--g700);
+        }
+
+        .role-card.featured .role-tag {
+            background: rgb(255 255 255/.08);
+            color: var(--g300);
+        }
+
+        .role-desc {
+            font-size: .9rem;
+            line-height: 1.65;
+            margin-bottom: 20px;
+        }
+
+        .role-card:not(.featured) .role-desc {
+            color: var(--s600);
+        }
+
+        .role-card.featured .role-desc {
+            color: rgb(255 255 255/.6);
+        }
+
+        .role-perms {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .role-perms li {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: .85rem;
+        }
+
+        .role-card:not(.featured) .role-perms li {
+            color: var(--s600);
+        }
+
+        .role-card.featured .role-perms li {
+            color: rgb(255 255 255/.7);
+        }
+
+        .rp-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .role-card.featured .rp-dot {
+            background: var(--g400);
+        }
+
+        .role-card:not(.featured) .rp-dot {
+            background: var(--s400);
+        }
+
+        /* ════════════════════════════════════
+     APP PREVIEW
+  ════════════════════════════════════ */
+        #app-preview {
+            background: var(--g950);
+        }
+
+        .preview-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 56px;
+        }
+
+        .preview-header .eyebrow {
+            color: var(--g300);
+            background: rgb(255 255 255/.06);
+            border-color: rgb(255 255 255/.12);
+        }
+
+        .preview-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .ptab {
+            font-family: var(--sans);
+            font-size: .82rem;
+            font-weight: 600;
+            padding: 8px 20px;
+            border-radius: var(--r-full);
+            cursor: pointer;
+            border: 1.5px solid rgb(255 255 255/.15);
+            background: transparent;
+            color: rgb(255 255 255/.5);
+            transition: all .2s;
+        }
+
+        .ptab:hover {
+            border-color: rgb(255 255 255/.3);
+            color: rgb(255 255 255/.85);
+        }
+
+        .ptab.active {
+            background: var(--g600);
+            border-color: transparent;
+            color: #fff;
+        }
+
+        .preview-screens {
+            position: relative;
+        }
+
+        .pscreen {
+            display: none;
+        }
+
+        .pscreen.active {
+            display: block;
+        }
+
+        /* App shell */
+        .app-shell {
+            background: var(--s50);
+            border-radius: var(--r-2xl);
+            overflow: hidden;
+            border: 1px solid var(--s200);
+            box-shadow: var(--sh-xl);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .app-topbar {
+            background: #fff;
+            border-bottom: 1px solid var(--s200);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .app-topbar-dots {
+            display: flex;
+            gap: 5px;
+        }
+
+        .app-topbar-dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .app-topbar-url {
+            flex: 1;
+            background: var(--s100);
+            border-radius: var(--r-full);
+            height: 26px;
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            font-size: .72rem;
+            color: var(--s500);
+            max-width: 340px;
+            margin: 0 auto;
+        }
+
+        .app-body {
+            display: flex;
+            height: 520px;
+        }
+
+        .app-sidebar {
+            width: 220px;
+            flex-shrink: 0;
+            background: var(--g950);
+            padding: 20px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .app-sidebar-logo {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            padding: 4px 12px 16px;
+            letter-spacing: -.01em;
+        }
+
+        .app-sidebar-logo span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--g400);
+            border-radius: 50%;
+            margin-left: 1px;
+            vertical-align: middle;
+            margin-bottom: 3px;
+        }
+
+        .sitem {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: var(--r-md);
+            font-size: .82rem;
+            font-weight: 500;
+            color: rgb(255 255 255/.45);
+            transition: all .15s;
+        }
+
+        .sitem.active {
+            background: rgb(255 255 255/.1);
+            color: #fff;
+        }
+
+        .sitem svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .app-main {
+            flex: 1;
+            padding: 24px;
+            overflow: hidden;
+        }
+
+        /* Shared inner UI helpers */
+        .ui-toprow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .ui-title {
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--s900);
+        }
+
+        .ui-searchbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--s100);
+            border: 1px solid var(--s200);
+            border-radius: var(--r-full);
+            padding: 7px 14px;
+            font-size: .78rem;
+            color: var(--s500);
+            width: 200px;
+        }
+
+        .ui-searchbar svg {
+            width: 13px;
+            height: 13px;
+        }
+
+        .ui-btn-mini {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--g600);
+            color: #fff;
+            font-size: .75rem;
+            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: var(--r-full);
+        }
+
+        .ui-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #fff;
+            border: 1px solid var(--s200);
+            border-radius: var(--r-md);
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            transition: border-color .15s;
+        }
+
+        .ui-row:hover {
+            border-color: var(--g300);
+        }
+
+        .ui-row.highlighted {
+            border-color: var(--g300);
+            background: var(--g50);
+        }
+
+        .ui-av {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: .75rem;
+            flex-shrink: 0;
+        }
+
+        .ui-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .ui-name {
+            font-size: .85rem;
+            font-weight: 700;
+            color: var(--s900);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .ui-sub {
+            font-size: .72rem;
+            color: var(--s500);
+            margin-top: 1px;
+        }
+
+        .ui-chip {
+            font-size: .65rem;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: var(--r-full);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .chip-green {
+            background: var(--g100);
+            color: var(--g700);
+        }
+
+        .chip-slate {
+            background: var(--s100);
+            color: var(--s600);
+        }
+
+        .chip-amber {
+            background: #fef9c3;
+            color: #854d0e;
+        }
+
+        @media (max-width: 768px) {
+            .app-shell {
+                border-radius: var(--r-lg);
+            }
+
+            .app-body {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .app-sidebar {
+                width: 100%;
+                flex-direction: row;
+                flex-wrap: wrap;
+                padding: 12px;
+                gap: 6px;
+                height: auto;
+            }
+
+            .app-sidebar-logo {
+                display: none;
+            }
+
+            .app-main {
+                padding: 16px;
+            }
+        }
+
+        /* ════════════════════════════════════
+     POR QUÉ SENDERO
+  ════════════════════════════════════ */
+        #ventajas {
+            background: var(--s50);
+        }
+
+        .ventajas-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .ventajas-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        .v-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 28px;
+        }
+
+        .v-item {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .v-icon {
+            width: 46px;
+            height: 46px;
+            flex-shrink: 0;
+            background: var(--g50);
+            border: 1px solid var(--g100);
+            border-radius: var(--r-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .v-icon svg {
+            width: 20px;
+            height: 20px;
+            color: var(--g600);
+        }
+
+        .v-title {
+            font-weight: 700;
+            color: var(--s900);
+            margin-bottom: 4px;
+        }
+
+        .v-desc {
+            font-size: .875rem;
+            color: var(--s600);
+            line-height: 1.65;
+        }
+
+        /* Comparison table */
+        .compare-card {
+            background: #fff;
+            border: 1px solid var(--s200);
+            border-radius: var(--r-2xl);
+            overflow: hidden;
+            box-shadow: var(--sh-lg);
+        }
+
+        .compare-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            background: var(--s50);
+            border-bottom: 1px solid var(--s200);
+            padding: 0;
+        }
+
+        .compare-col-label {
+            padding: 16px 20px;
+            font-size: .78rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .compare-col-label.highlight {
+            background: var(--g950);
+            color: var(--g300);
+            border-left: 1px solid var(--g800);
+            border-right: 1px solid var(--g800);
+        }
+
+        .compare-col-label:not(.highlight) {
+            color: var(--s500);
+        }
+
+        .compare-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-bottom: 1px solid var(--s100);
+        }
+
+        .compare-row:last-child {
+            border-bottom: none;
+        }
+
+        .compare-cell {
+            padding: 14px 20px;
+            font-size: .84rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .compare-cell.feat {
+            text-align: left;
+            justify-content: flex-start;
+            color: var(--s700);
+            font-weight: 500;
+        }
+
+        .compare-cell.yes {
+            background: var(--g950);
+            border-left: 1px solid var(--g800);
+            border-right: 1px solid var(--g800);
+        }
+
+        .compare-cell.no svg {
+            color: var(--s400);
+        }
+
+        .compare-cell.yes svg {
+            color: var(--g400);
+        }
+
+        .compare-cell.partial svg {
+            color: var(--amber);
+        }
+
+        /* ════════════════════════════════════
+     FAQ
+  ════════════════════════════════════ */
+        #faq {
+            background: #fff;
+        }
+
+        .faq-header {
+            text-align: center;
+            max-width: 560px;
+            margin: 0 auto 56px;
+        }
+
+        .faq-list {
+            max-width: 760px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .faq-item {
+            border: 1px solid var(--s200);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            background: #fff;
+            transition: border-color .2s;
+        }
+
+        .faq-item.open {
+            border-color: var(--g300);
+            box-shadow: var(--sh-sm);
+        }
+
+        .faq-q {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 20px 24px;
+            font-family: var(--sans);
+            font-size: .95rem;
+            font-weight: 600;
+            color: var(--s900);
+            cursor: pointer;
+            border: none;
+            background: none;
+            text-align: left;
+        }
+
+        .faq-item.open .faq-q {
+            color: var(--g700);
+        }
+
+        .faq-icon {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: var(--s100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .25s;
+        }
+
+        .faq-icon svg {
+            width: 14px;
+            height: 14px;
+            color: var(--s600);
+            transition: transform .25s;
+        }
+
+        .faq-item.open .faq-icon {
+            background: var(--g600);
+        }
+
+        .faq-item.open .faq-icon svg {
+            color: #fff;
+            transform: rotate(45deg);
+        }
+
+        .faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .35s ease, padding .25s ease;
+            padding: 0 24px;
+            font-size: .9rem;
+            color: var(--s600);
+            line-height: 1.75;
+        }
+
+        .faq-item.open .faq-a {
+            max-height: 300px;
+            padding-bottom: 22px;
+        }
+
+        /* ════════════════════════════════════
+     CTA FINAL
+  ════════════════════════════════════ */
+        #cta-final {
+            background: var(--g950);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-mesh {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 50% 80% at 100% 50%, rgb(26 131 97/.35) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 60% at 0% 50%, rgb(22 160 118/.2) 0%, transparent 55%);
+        }
+
+        .cta-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgb(255 255 255/.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgb(255 255 255/.025) 1px, transparent 1px);
+            background-size: 56px 56px;
+        }
+
+        .cta-inner-wrap {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-family: var(--serif);
+            font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+            font-weight: 500;
+            color: #fff;
+            line-height: 1.15;
+            margin-bottom: 18px;
+        }
+
+        .cta-title em {
+            font-style: italic;
+            color: var(--g300);
+        }
+
+        .cta-sub {
+            font-size: 1rem;
+            color: rgb(255 255 255/.55);
+            line-height: 1.75;
+            margin-bottom: 40px;
+        }
+
+        .cta-btns {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .cta-contact {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        .cta-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: .82rem;
+            color: rgb(255 255 255/.45);
+            font-weight: 500;
+        }
+
+        .cta-contact-item svg {
+            color: var(--g400);
+        }
+
+        .cta-contact-item a {
+            color: rgb(255 255 255/.7);
+            transition: color .2s;
+        }
+
+        .cta-contact-item a:hover {
+            color: var(--g300);
+        }
+
+        /* ════════════════════════════════════
+     FOOTER
+  ════════════════════════════════════ */
+        footer {
+            background: var(--s950);
+            padding: 36px 0;
+        }
+
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-brand {
+            font-family: var(--serif);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -.01em;
+        }
+
+        .footer-copy {
+            font-size: .78rem;
+            color: var(--s600);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .footer-links a {
+            font-size: .78rem;
+            color: var(--s600);
+            transition: color .2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--g300);
+        }
+
+        /* ════════════════════════════════════
+     RESPONSIVE
+  ════════════════════════════════════ */
+        @media (max-width: 640px) {
+            .section {
+                padding: 64px 0;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .stat-item {
+                border-right: none;
+                border-bottom: 1px solid rgb(255 255 255/.08);
+            }
+
+            .stat-item:last-child {
+                border-bottom: none;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ══════════════════════════════════ NAV ══ -->
+    <nav id="nav">
+        <div class="wrap">
+            <div class="nav-wrap">
+                <a href="#hero" class="nav-logo">Sendero<span class="nav-logo-dot"></span></a>
+
+                <ul class="nav-links">
+                    <li><a href="#dolor">El problema</a></li>
+                    <li><a href="#features">Funciones</a></li>
+                    <li><a href="#app-preview">La app</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+
+                <div class="nav-right">
+                    <a href="#cta-final" class="btn btn-ghost-white btn-sm" id="nav-ghost">Solicitar demo</a>
+                    <a href="#cta-final" class="btn btn-green btn-sm" id="nav-cta-btn" style="display:none;">Empezar
+                        ahora</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- ══════════════════════════════════ HERO ══ -->
+    <section id="hero">
+        <div class="hero-mesh"></div>
+        <div class="hero-grid"></div>
+
+        <svg class="hero-trail" viewBox="0 0 600 900" fill="none" xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice">
+            <path
+                d="M550 0 C460 100 330 160 400 290 C470 420 550 450 470 560 C390 670 260 645 285 770 C310 895 430 890 450 920"
+                stroke="white" stroke-width="1.5" stroke-dasharray="10 7" />
+            <path d="M490 0 C400 130 300 190 350 330 C400 470 490 490 410 595 C330 700 200 680 225 800" stroke="white"
+                stroke-width="1" stroke-dasharray="5 9" opacity=".5" />
+            <circle cx="400" cy="290" r="6" fill="white" opacity=".25" />
+            <circle cx="470" cy="560" r="6" fill="white" opacity=".2" />
+            <circle cx="285" cy="770" r="6" fill="white" opacity=".15" />
+        </svg>
+
+        <div class="wrap">
+            <div class="hero-body">
+                <div>
+                    <div class="hero-badge">
+                        <span class="badge-pulse"></span>
+                        Plataforma para salud mental
+                    </div>
+
+                    <h1 class="hero-title display h1">
+                        Dejá el caos atrás.<br>
+                        Enfocate en tus <em>pacientes.</em>
+                    </h1>
+
+                    <p class="hero-sub">
+                        Sendero reemplaza el cuaderno, el Excel y los grupos de WhatsApp. Gestioná fichas, sesiones,
+                        hitos y agenda
+                        desde un solo lugar — simple, seguro y diseñado para tu práctica clínica.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a href="#cta-final" class="btn btn-green btn-lg">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                            Solicitar demo gratis
+                        </a>
+                        <a href="#features" class="btn btn-ghost-white btn-lg">Ver funciones</a>
+                    </div>
+
+                    <div class="hero-proof">
+                        <div class="hero-proof-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            Sin costo de setup
+                        </div>
+                        <span class="hero-sep"></span>
+                        <div class="hero-proof-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            Demo personalizada
+                        </div>
+                        <span class="hero-sep"></span>
+                        <div class="hero-proof-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            Datos 100% seguros
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UI Mockup -->
+                <div class="hero-visual">
+                    <div class="mockup-card">
+                        <div class="mockup-topbar">
+                            <div class="mockup-dot" style="background:#ef4444;opacity:.5"></div>
+                            <div class="mockup-dot" style="background:var(--amber);opacity:.5"></div>
+                            <div class="mockup-dot" style="background:var(--g500);opacity:.5"></div>
+                            <div class="mockup-title-bar"></div>
+                        </div>
+
+                        <div class="mockup-row active">
+                            <div class="mockup-avatar" style="background:rgb(111 213 174/.25);color:var(--g300)">MG
+                            </div>
+                            <div style="flex:1">
+                                <div class="mockup-line sm"></div>
+                                <div class="mockup-line xs"></div>
+                            </div>
+                            <span class="mockup-status"
+                                style="background:rgb(26 131 97/.3);color:var(--g300);font-size:.62rem;font-weight:700;padding:4px 10px;border-radius:99px;">Activo</span>
+                        </div>
+
+                        <div class="mockup-row">
+                            <div class="mockup-avatar" style="background:rgb(219 234 254/.12);color:#93c5fd">SR</div>
+                            <div style="flex:1">
+                                <div class="mockup-line sm" style="width:45%"></div>
+                                <div class="mockup-line xs"></div>
+                            </div>
+                            <span class="mockup-status"
+                                style="background:rgb(245 158 11/.15);color:var(--amber);font-size:.62rem;font-weight:700;padding:4px 10px;border-radius:99px;">Hoy</span>
+                        </div>
+
+                        <div class="mockup-row">
+                            <div class="mockup-avatar" style="background:rgb(252 231 243/.12);color:#f9a8d4">LV</div>
+                            <div style="flex:1">
+                                <div class="mockup-line sm" style="width:55%"></div>
+                                <div class="mockup-line xs"></div>
+                            </div>
+                            <span class="mockup-status"
+                                style="background:rgb(148 163 184/.1);color:rgb(148 163 184/.7);font-size:.62rem;font-weight:700;padding:4px 10px;border-radius:99px;">Mañana</span>
+                        </div>
+
+                        <div
+                            style="margin-top:16px;padding:14px;background:rgb(26 131 97/.1);border:1px solid rgb(26 131 97/.2);border-radius:var(--r-md);">
+                            <div
+                                style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g300);margin-bottom:6px;">
+                                Próxima sesión</div>
+                            <div class="mockup-line" style="width:70%;background:rgb(255 255 255/.15);"></div>
+                            <div class="mockup-line xs"
+                                style="width:40%;background:rgb(255 255 255/.08);margin-top:6px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="mockup-mini">
+                        <div class="mockup-mini-label">Sesiones este mes</div>
+                        <div class="mockup-stat">148</div>
+                        <div class="mockup-stat-sub">↑ 12% vs mes anterior</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════ TRUST ══ -->
+    <section id="trust">
+        <div class="wrap">
+            <div class="trust-inner">
+                <div class="trust-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    Datos clínicos encriptados
+                </div>
+                <div class="trust-sep"></div>
+                <div class="trust-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <rect x="5" y="2" width="14" height="20" rx="2" />
+                        <line x1="12" y1="18" x2="12" y2="18" />
+                    </svg>
+                    100% mobile-friendly
+                </div>
+                <div class="trust-sep"></div>
+                <div class="trust-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    Soporte en español
+                </div>
+                <div class="trust-sep"></div>
+                <div class="trust-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    Para equipos multi-disciplinarios
+                </div>
+                <div class="trust-sep"></div>
+                <div class="trust-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    Sin papeles ni Excel
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════ DOLOR ══ -->
+    <section id="dolor" class="section">
+        <div class="wrap">
+            <div class="dolor-header">
+                <span class="eyebrow"><span class="eyebrow-dot"></span>El problema</span>
+                <h2 class="display h2 reveal">¿Te suena esto?</h2>
+                <p class="lead reveal" data-delay="1">Los profesionales de la salud mental perdemos tiempo valioso en
+                    administración. Sendero existe para cambiar eso.</p>
+            </div>
+
+            <div class="dolor-grid">
+                <div class="dolor-card reveal">
+                    <div class="dolor-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                        </svg>
+                    </div>
+                    <div class="dolor-title">"Las notas de mis pacientes están en 4 lugares diferentes"</div>
+                    <p class="dolor-desc">Cuadernos, Google Docs, Word, notas del celular... y cuando necesitás algo,
+                        nunca
+                        aparece.</p>
+                </div>
+
+                <div class="dolor-card reveal" data-delay="1">
+                    <div class="dolor-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                        </svg>
+                    </div>
+                    <div class="dolor-title">"Mi agenda es un caos entre WhatsApp, papel y llamadas"</div>
+                    <p class="dolor-desc">Confirmaciones por mensaje, cancelaciones a último momento y dobles turnos que
+                        te
+                        complican el día.</p>
+                </div>
+
+                <div class="dolor-card reveal" data-delay="2">
+                    <div class="dolor-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                    </div>
+                    <div class="dolor-title">"Trabajo con colegas pero no tenemos forma de coordinarnos"</div>
+                    <p class="dolor-desc">Compartís información del paciente por WhatsApp o email. Poco práctico, nada
+                        seguro y
+                        difícil de rastrear.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════ STATS ══ -->
+    <section id="stats">
+        <div class="wrap">
+            <div class="stats-grid">
+                <div class="stat-item reveal">
+                    <div class="stat-number"><em>5×</em></div>
+                    <div class="stat-label">Más rápido registrar una sesión</div>
+                </div>
+                <div class="stat-item reveal" data-delay="1">
+                    <div class="stat-number">100<em>%</em></div>
+                    <div class="stat-label">Privacidad en notas clínicas</div>
+                </div>
+                <div class="stat-item reveal" data-delay="2">
+                    <div class="stat-number"><em>0</em></div>
+                    <div class="stat-label">Papeles, carpetas o Excel necesarios</div>
+                </div>
+                <div class="stat-item reveal" data-delay="3">
+                    <div class="stat-number">1<em>solo</em></div>
+                    <div class="stat-label">Sistema para todo tu equipo clínico</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════ FEATURES ══ -->
+    <section id="features" class="section">
+        <div class="wrap">
+            <div class="features-header">
+                <span class="eyebrow reveal"><span class="eyebrow-dot"></span>Funciones</span>
+                <h2 class="display h2 reveal">Todo lo que necesitás,<br><em>en un solo lugar</em></h2>
+            </div>
+
+            <div class="features-layout">
+                <!-- Tabs -->
+                <div class="feature-tabs">
+
+                    <div class="ftab active" data-panel="pacientes">
+                        <div class="ftab-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                            </svg>
+                        </div>
+                        <div class="ftab-text">
+                            <div class="ftab-name">Fichas de pacientes</div>
+                            <div class="ftab-desc">Historial completo, diagnósticos, red de apoyo, medicación y
+                                consentimiento.</div>
+                        </div>
+                    </div>
+
+                    <div class="ftab" data-panel="sesiones">
+                        <div class="ftab-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
+                                <line x1="16" y1="13" x2="8" y2="13" />
+                            </svg>
+                        </div>
+                        <div class="ftab-text">
+                            <div class="ftab-name">Registro de sesiones</div>
+                            <div class="ftab-desc">Notas clínicas, plantillas por área, adjuntos y notas confidenciales
+                                protegidas.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ftab" data-panel="hitos">
+                        <div class="ftab-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                            </svg>
+                        </div>
+                        <div class="ftab-text">
+                            <div class="ftab-name">Hitos clínicos</div>
+                            <div class="ftab-desc">Momentos clave del proceso terapéutico: avances, quiebres y puntos de
+                                inflexión.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ftab" data-panel="dashboard">
+                        <div class="ftab-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                            </svg>
+                        </div>
+                        <div class="ftab-text">
+                            <div class="ftab-name">Dashboard y evolución</div>
+                            <div class="ftab-desc">Línea de tiempo, gráficos de progreso y reportes del paciente
+                                exportables.</div>
+                        </div>
+                    </div>
+
+                    <div class="ftab" data-panel="agenda">
+                        <div class="ftab-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                            </svg>
+                        </div>
+                        <div class="ftab-text">
+                            <div class="ftab-name">Agenda y calendario</div>
+                            <div class="ftab-desc">Turnos, lista de espera, estados de citas y frecuencias sugeridas de
+                                atención.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Panels -->
+                <div class="feature-panel">
+
+                    <div class="fpanel active" id="panel-pacientes">
+                        <span class="fpanel-tag">Módulo 1</span>
+                        <div class="fpanel-title">Fichas de pacientes</div>
+                        <p class="fpanel-desc">Toda la información clínica en una sola ficha: desde el diagnóstico hasta
+                            la red de
+                            apoyo familiar. Sin límite de pacientes, sin carpetas físicas.</p>
+                        <ul class="fpanel-list">
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Diagnósticos por área clínica</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Red de apoyo: familia y contactos clave</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Medicación actual y antecedentes médicos</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Consentimiento informado digital</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Múltiples profesionales por paciente</li>
+                        </ul>
+                        <div class="fpanel-visual">
+                            <div class="fpanel-stat-row">
+                                <div class="fpanel-stat">
+                                    <div class="fpanel-stat-num">∞</div>
+                                    <div class="fpanel-stat-label">Pacientes</div>
+                                </div>
+                                <div class="fpanel-stat">
+                                    <div class="fpanel-stat-num">100%</div>
+                                    <div class="fpanel-stat-label">Digital</div>
+                                </div>
+                                <div class="fpanel-stat">
+                                    <div class="fpanel-stat-num">0</div>
+                                    <div class="fpanel-stat-label">Papel</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="fpanel" id="panel-sesiones">
+                        <span class="fpanel-tag">Módulo 2</span>
+                        <div class="fpanel-title">Registro de sesiones</div>
+                        <p class="fpanel-desc">Registrá cada sesión con notas clínicas detalladas, plantillas adaptadas
+                            a tu área y
+                            adjuntos. Las notas confidenciales son visibles solo para vos.</p>
+                        <ul class="fpanel-list">
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Plantillas personalizables por especialidad</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Adjuntos y materiales de sesión</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Notas confidenciales protegidas por rol</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Historial cronológico completo</li>
+                        </ul>
+                        <div class="fpanel-visual">
+                            <div class="fpanel-stat-row">
+                                <div class="fpanel-stat">
+                                    <div class="fpanel-stat-num">5×</div>
+                                    <div class="fpanel-stat-label">Más rápido</div>
+                                </div>
+                                <div class="fpanel-stat">
+                                    <div class="fpanel-stat-num">🔒</div>
+                                    <div class="fpanel-stat-label">Notas privadas</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="fpanel" id="panel-hitos">
+                        <span class="fpanel-tag">Módulo 3</span>
+                        <div class="fpanel-title">Hitos clínicos</div>
+                        <p class="fpanel-desc">Marcá los momentos que definen el proceso terapéutico. Los hitos se
+                            comparten con
+                            todo el equipo para tener una visión unificada del paciente.</p>
+                        <ul class="fpanel-list">
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Hitos positivos y negativos diferenciados</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Vinculados a sesiones específicas</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Visibles para todos los co-tratantes</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Aparecen en la línea de tiempo del dashboard</li>
+                        </ul>
+                    </div>
+
+                    <div class="fpanel" id="panel-dashboard">
+                        <span class="fpanel-tag">Módulo 4</span>
+                        <div class="fpanel-title">Dashboard y evolución</div>
+                        <p class="fpanel-desc">Visualizá el progreso de cada paciente de un vistazo. Gráficos de
+                            evolución, línea de
+                            tiempo y reportes listos para presentar o archivar.</p>
+                        <ul class="fpanel-list">
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Línea de tiempo con sesiones e hitos</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Gráficos de progreso por objetivo</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Reportes exportables en PDF</li>
+                        </ul>
+                    </div>
+
+                    <div class="fpanel" id="panel-agenda">
+                        <span class="fpanel-tag">Módulo 5</span>
+                        <div class="fpanel-title">Agenda y calendario</div>
+                        <p class="fpanel-desc">Organizá tus turnos, manejá la lista de espera y conocé de un vistazo
+                            quién viene,
+                            cuándo y con qué frecuencia.</p>
+                        <ul class="fpanel-list">
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Vista semanal y mensual de turnos</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Lista de espera integrada</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Estados de cita: confirmado, cancelado, asistió</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Frecuencia de atención sugerida por paciente</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════ MULTI ══ -->
+    <section id="multi" class="section">
+        <div class="wrap">
+            <div class="multi-grid">
+                <div>
+                    <span class="eyebrow reveal"><span class="eyebrow-dot"></span>Trabajo en equipo</span>
+                    <h2 class="display h2 reveal">Un paciente.<br><em>Varios profesionales.</em><br>Un solo sistema.
+                    </h2>
+                    <p class="lead reveal" data-delay="1" style="margin-top:16px;">Un mismo paciente puede ser atendido
+                        por
+                        psicólogo, psicopedagogo, fonoaudiólogo y más — al mismo tiempo, sin pisarse ni compartir
+                        información que no
+                        corresponde.</p>
+                    <ul class="multi-checks reveal" data-delay="2">
+                        <li>
+                            <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3" stroke-linecap="round">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg></div>
+                            Cada profesional ve <strong>solo sus sesiones y notas</strong>
+                        </li>
+                        <li>
+                            <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3" stroke-linecap="round">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg></div>
+                            La ficha base y los hitos <strong>se comparten entre el equipo</strong>
+                        </li>
+                        <li>
+                            <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3" stroke-linecap="round">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg></div>
+                            El titular <strong>autoriza quién accede</strong> a qué información
+                        </li>
+                        <li>
+                            <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3" stroke-linecap="round">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg></div>
+                            Ideal para <strong>consultorios compartidos y equipos interdisciplinarios</strong>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="patient-hub reveal" data-delay="1">
+                    <div class="hub-center">
+                        <div
+                            style="width:36px;height:36px;background:var(--g700);border-radius:50%;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:#fff;">
+                            MG</div>
+                        <div class="hub-name">Martín G.</div>
+                        <div class="hub-label">Paciente</div>
+                    </div>
+                    <div class="hub-connector"></div>
+                    <div class="hub-row">
+                        <div class="hub-prof">
+                            <div class="hub-prof-av" style="background:#dbeafe;color:#1d4ed8;">LP</div>
+                            <div class="hub-prof-name">Lic. Laura P.</div>
+                            <div class="hub-prof-role">Psicóloga</div>
+                            <span class="hub-badge hub-badge-priv">Notas privadas</span>
+                        </div>
+                        <div class="hub-prof">
+                            <div class="hub-prof-av" style="background:#fce7f3;color:#be185d;">CR</div>
+                            <div class="hub-prof-name">Lic. Carolina R.</div>
+                            <div class="hub-prof-role">Psicopedagoga</div>
+                            <span class="hub-badge hub-badge-priv">Notas privadas</span>
+                        </div>
+                        <div class="hub-prof">
+                            <div class="hub-prof-av" style="background:#fef9c3;color:#854d0e;">TM</div>
+                            <div class="hub-prof-name">Prof. Tomás M.</div>
+                            <div class="hub-prof-role">Fonoaudiólogo</div>
+                            <span class="hub-badge hub-badge-priv">Notas privadas</span>
+                        </div>
+                    </div>
+                    <div
+                        style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--g50);border:1px solid var(--g200);border-radius:var(--r-full);margin-top:4px;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g600)"
+                            stroke-width="2.5">
+                            <polygon
+                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                        </svg>
+                        <span style="font-size:.78rem;color:var(--g700);font-weight:700;">Hitos compartidos por todo el
+                            equipo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════ ROLES ══ -->
+    <section id="roles" class="section">
+        <div class="wrap">
+            <div class="roles-header">
+                <span class="eyebrow"><span class="eyebrow-dot"></span>Roles y permisos</span>
+                <h2 class="display h2 reveal">Control total<br><em>para cada rol</em></h2>
+                <p class="lead reveal" data-delay="1" style="margin:0 auto;">Cada integrante del equipo accede solo a lo
+                    que le
+                    corresponde. Sin configuraciones complicadas.</p>
+            </div>
+
+            <div class="roles-grid">
+                <div class="role-card featured reveal">
+                    <div class="role-n">01</div>
+                    <div class="role-name">Titular</div>
+                    <span class="role-tag">Acceso total</span>
+                    <p class="role-desc">El profesional principal. Tiene visibilidad completa y control absoluto sobre
+                        el sistema
+                        y el equipo.</p>
+                    <ul class="role-perms">
+                        <li><span class="rp-dot"></span>Ve notas clínicas confidenciales</li>
+                        <li><span class="rp-dot"></span>Administra al equipo</li>
+                        <li><span class="rp-dot"></span>Autoriza acceso a co-tratantes</li>
+                        <li><span class="rp-dot"></span>Acceso a todos los módulos</li>
+                        <li><span class="rp-dot"></span>Reportes y dashboard completos</li>
+                    </ul>
+                </div>
+
+                <div class="role-card reveal" data-delay="1">
+                    <div class="role-n">02</div>
+                    <div class="role-name">Supervisado</div>
+                    <span class="role-tag">Acceso configurable</span>
+                    <p class="role-desc">Profesional en formación. El titular define exactamente qué puede ver y hacer.
+                    </p>
+                    <ul class="role-perms">
+                        <li><span class="rp-dot"></span>Permisos definidos por titular</li>
+                        <li><span class="rp-dot"></span>Puede registrar sus sesiones</li>
+                        <li><span class="rp-dot"></span>Sin acceso a notas confidenciales</li>
+                        <li><span class="rp-dot"></span>Ideal para residencias y pasantías</li>
+                    </ul>
+                </div>
+
+                <div class="role-card reveal" data-delay="2">
+                    <div class="role-n">03</div>
+                    <div class="role-name">Secretaria</div>
+                    <span class="role-tag">Agenda y datos básicos</span>
+                    <p class="role-desc">Gestiona la parte administrativa sin acceder a información clínica privada.</p>
+                    <ul class="role-perms">
+                        <li><span class="rp-dot"></span>Gestiona turnos y agenda</li>
+                        <li><span class="rp-dot"></span>Datos básicos del paciente</li>
+                        <li><span class="rp-dot"></span>Lista de espera</li>
+                        <li><span class="rp-dot"></span>Sin acceso a notas clínicas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════ APP PREVIEW ══ -->
+    <section id="app-preview" class="section">
+        <div class="wrap">
+            <div class="preview-header">
+                <span class="eyebrow"><span class="eyebrow-dot"></span>La plataforma</span>
+                <h2 class="display h2 reveal" style="color:#fff;">Así se ve<br><em>Sendero por dentro</em></h2>
+                <p class="reveal" data-delay="1"
+                    style="color:rgb(255 255 255/.55);font-size:1rem;line-height:1.7;margin-top:12px;">Una interfaz
+                    limpia,
+                    pensada para que puedas trabajar sin distracciones.</p>
+            </div>
+
+            <!-- Screen selector tabs -->
+            <div class="preview-tabs reveal" data-delay="2">
+                <button class="ptab active" data-screen="pacientes">Pacientes</button>
+                <button class="ptab" data-screen="sesion">Sesión clínica</button>
+                <button class="ptab" data-screen="agenda">Agenda</button>
+            </div>
+
+            <!-- ── SCREEN: Lista de pacientes ── -->
+            <div class="pscreen active reveal" id="pscreen-pacientes" data-delay="3">
+                <div class="app-shell">
+                    <div class="app-topbar">
+                        <div class="app-topbar-dots">
+                            <span style="background:#ef4444;opacity:.5"></span>
+                            <span style="background:#f59e0b;opacity:.5"></span>
+                            <span style="background:#22c55e;opacity:.5"></span>
+                        </div>
+                        <div class="app-topbar-url">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" style="margin-right:5px">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            app.sendero.com/pacientes
+                        </div>
+                    </div>
+                    <div class="app-body">
+                        <div class="app-sidebar">
+                            <div class="app-sidebar-logo">Sendero<span></span></div>
+                            <div class="sitem active">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                    <circle cx="9" cy="7" r="4" />
+                                </svg>
+                                Pacientes
+                            </div>
+                            <div class="sitem">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <polyline points="14 2 14 8 20 8" />
+                                </svg>
+                                Sesiones
+                            </div>
+                            <div class="sitem">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                                </svg>
+                                Hitos
+                            </div>
+                            <div class="sitem">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                                </svg>
+                                Dashboard
+                            </div>
+                            <div class="sitem">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                </svg>
+                                Agenda
+                            </div>
+                        </div>
+                        <div class="app-main">
+                            <div class="ui-toprow">
+                                <div class="ui-title">Mis pacientes</div>
+                                <div style="display:flex;gap:8px;align-items:center;">
+                                    <div class="ui-searchbar">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                            <circle cx="11" cy="11" r="8" />
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                        </svg>
+                                        Buscar paciente...
+                                    </div>
+                                    <div class="ui-btn-mini">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2.5">
+                                            <line x1="12" y1="5" x2="12" y2="19" />
+                                            <line x1="5" y1="12" x2="19" y2="12" />
+                                        </svg>
+                                        Nuevo
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ui-row highlighted">
+                                <div class="ui-av" style="background:#dbeafe;color:#1d4ed8;">MG</div>
+                                <div class="ui-info">
+                                    <div class="ui-name">García, Martín Alejandro</div>
+                                    <div class="ui-sub">Última sesión: hace 3 días · Psicología · Psicopedagogía</div>
+                                </div>
+                                <span class="ui-chip chip-green">Activo</span>
+                            </div>
+
+                            <div class="ui-row">
+                                <div class="ui-av" style="background:#fce7f3;color:#be185d;">SR</div>
+                                <div class="ui-info">
+                                    <div class="ui-name">Rodríguez, Sofía</div>
+                                    <div class="ui-sub">Última sesión: hoy · Fonoaudiología</div>
+                                </div>
+                                <span class="ui-chip chip-green">Activo</span>
+                            </div>
+
+                            <div class="ui-row">
+                                <div class="ui-av" style="background:#fef9c3;color:#854d0e;">LV</div>
+                                <div class="ui-info">
+                                    <div class="ui-name">Vidal, Lucas</div>
+                                    <div class="ui-sub">Última sesión: hace 2 semanas · Psicología</div>
+                                </div>
+                                <span class="ui-chip chip-amber">Seguimiento</span>
+                            </div>
+
+                            <div class="ui-row">
+                                <div class="ui-av" style="background:var(--g100);color:var(--g700);">AP</div>
+                                <div class="ui-info">
+                                    <div class="ui-name">Pérez, Agustina</div>
+                                    <div class="ui-sub">Derivada · En evaluación · Educación Especial</div>
+                                </div>
+                                <span class="ui-chip chip-slate">Nuevo</span>
+                            </div>
+
+                            <div
+                                style="margin-top:12px;padding:10px 14px;background:var(--s50);border:1px solid var(--s200);border-radius:var(--r-md);display:flex;align-items:center;gap:8px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--s400)"
+                                    stroke-width="2">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="12" y1="8" x2="12" y2="12" />
+                                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                                </svg>
+                                <span style="font-size:.75rem;color:var(--s500);">Mostrando 4 de 24 pacientes · <a
+                                        href="#" style="color:var(--g600);font-weight:600;">Ver todos</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── SCREEN: Sesión clínica ── -->
+            <div class="pscreen" id="pscreen-sesion">
+                <div class="app-shell">
+                    <div class="app-topbar">
+                        <div class="app-topbar-dots">
+                            <span style="background:#ef4444;opacity:.5"></span>
+                            <span style="background:#f59e0b;opacity:.5"></span>
+                            <span style="background:#22c55e;opacity:.5"></span>
+                        </div>
+                        <div class="app-topbar-url">app.sendero.com/sesiones/nueva</div>
+                    </div>
+                    <div class="app-body">
+                        <div class="app-sidebar">
+                            <div class="app-sidebar-logo">Sendero<span></span></div>
+                            <div class="sitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                    <circle cx="9" cy="7" r="4" />
+                                </svg>Pacientes</div>
+                            <div class="sitem active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <polyline points="14 2 14 8 20 8" />
+                                </svg>Sesiones</div>
+                            <div class="sitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                                </svg>Hitos</div>
+                            <div class="sitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                                </svg>Dashboard</div>
+                            <div class="sitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                </svg>Agenda</div>
+                        </div>
+                        <div class="app-main" style="overflow-y:auto;">
+                            <div class="ui-toprow" style="margin-bottom:16px;">
+                                <div>
+                                    <div style="font-size:.72rem;color:var(--s500);margin-bottom:2px;">García, Martín ·
+                                        Sesión #12</div>
+                                    <div class="ui-title">Registrar sesión</div>
+                                </div>
+                                <div class="ui-btn-mini">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                    Guardar
+                                </div>
+                            </div>
+
+                            <!-- Fecha y modalidad -->
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+                                <div
+                                    style="background:#fff;border:1px solid var(--s200);border-radius:var(--r-md);padding:10px 12px;">
+                                    <div
+                                        style="font-size:.65rem;font-weight:700;color:var(--s500);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">
+                                        Fecha</div>
+                                    <div style="font-size:.85rem;font-weight:600;color:var(--s900);">Martes 01 de abril,
+                                        2025</div>
+                                </div>
+                                <div
+                                    style="background:#fff;border:1px solid var(--s200);border-radius:var(--r-md);padding:10px 12px;">
+                                    <div
+                                        style="font-size:.65rem;font-weight:700;color:var(--s500);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">
+                                        Modalidad</div>
+                                    <div style="font-size:.85rem;font-weight:600;color:var(--s900);">Presencial · 50 min
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Nota clínica -->
+                            <div
+                                style="background:#fff;border:1px solid var(--s200);border-radius:var(--r-md);padding:12px;margin-bottom:10px;">
+                                <div
+                                    style="font-size:.65rem;font-weight:700;color:var(--s500);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">
+                                    Nota clínica</div>
+                                <div style="font-size:.82rem;color:var(--s700);line-height:1.7;">El paciente refiere
+                                    mejoría en los
+                                    patrones de sueño desde la última sesión. Continúa con técnicas de regulación
+                                    emocional trabajadas. Se
+                                    observa mayor capacidad de identificación de disparadores...</div>
+                                <div
+                                    style="height:28px;background:repeating-linear-gradient(transparent,transparent 26px,var(--s100) 27px);margin-top:8px;opacity:.5;border-radius:4px;">
+                                </div>
+                            </div>
+
+                            <!-- Nota confidencial -->
+                            <div
+                                style="background:var(--g50);border:1px solid var(--g200);border-radius:var(--r-md);padding:12px;display:flex;gap:10px;align-items:flex-start;">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--g600)"
+                                    stroke-width="2.5" style="flex-shrink:0;margin-top:1px;">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </svg>
+                                <div>
+                                    <div
+                                        style="font-size:.65rem;font-weight:700;color:var(--g700);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">
+                                        Nota confidencial (solo vos)</div>
+                                    <div style="font-size:.8rem;color:var(--g800);line-height:1.6;">Evaluar posibilidad
+                                        de interconsulta
+                                        con psiquiatra. El paciente mencionó situación familiar que requiere
+                                        seguimiento...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── SCREEN: Agenda ── -->
+            <div class="pscreen" id="pscreen-agenda">
+                <div class="app-shell">
+                    <div class="app-topbar">
+                        <div class="app-topbar-dots">
+                            <span style="background:#ef4444;opacity:.5"></span>
+                            <span style="background:#f59e0b;opacity:.5"></span>
+                            <span style="background:#22c55e;opacity:.5"></span>
+                        </div>
+                        <div class="app-topbar-url">app.sendero.com/agenda</div>
+                    </div>
+                    <div class="app-body">
+                        <div class="app-sidebar">
+                            <div class="app-sidebar-logo">Sendero<span></span></div>
+                            <div class="sitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                    <circle cx="9" cy="7" r="4" />
+                                </svg>Pacientes</div>
+                            <div class="sitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <polyline points="14 2 14 8 20 8" />
+                                </svg>Sesiones</div>
+                            <div class="sitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polygon
+                                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                                </svg>Hitos</div>
+                            <div class="sitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                                </svg>Dashboard</div>
+                            <div class="sitem active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                </svg>Agenda</div>
+                        </div>
+                        <div class="app-main">
+                            <div class="ui-toprow">
+                                <div class="ui-title">Agenda — Abril 2025</div>
+                                <div class="ui-btn-mini">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <line x1="12" y1="5" x2="12" y2="19" />
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                    </svg>
+                                    Nuevo turno
+                                </div>
+                            </div>
+
+                            <!-- Calendar mini-grid header -->
+                            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px;">
+                                <div
+                                    style="font-size:.65rem;font-weight:700;color:var(--s500);text-align:center;text-transform:uppercase;letter-spacing:.06em;">
+                                    Lun</div>
+                                <div
+                                    style="font-size:.65rem;font-weight:700;color:var(--s500);text-align:center;text-transform:uppercase;letter-spacing:.06em;">
+                                    Mar</div>
+                                <div
+                                    style="font-size:.65rem;font-weight:700;color:var(--g600);text-align:center;text-transform:uppercase;letter-spacing:.06em;">
+                                    Mié ●</div>
+                                <div
+                                    style="font-size:.65rem;font-weight:700;color:var(--s500);text-align:center;text-transform:uppercase;letter-spacing:.06em;">
+                                    Jue</div>
+                                <div
+                                    style="font-size:.65rem;font-weight:700;color:var(--s500);text-align:center;text-transform:uppercase;letter-spacing:.06em;">
+                                    Vie</div>
+                            </div>
+
+                            <!-- Turnos del día -->
+                            <div
+                                style="font-size:.7rem;font-weight:700;color:var(--s500);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">
+                                Miércoles 2 de abril · 4 turnos</div>
+
+                            <div style="display:flex;gap:8px;align-items:stretch;margin-bottom:8px;">
+                                <div
+                                    style="font-size:.72rem;color:var(--s400);width:42px;flex-shrink:0;padding-top:12px;text-align:right;">
+                                    09:00</div>
+                                <div class="ui-row highlighted" style="flex:1;margin:0;">
+                                    <div class="ui-av"
+                                        style="background:#dbeafe;color:#1d4ed8;width:30px;height:30px;font-size:.7rem;">
+                                        MG
+                                    </div>
+                                    <div class="ui-info">
+                                        <div class="ui-name" style="font-size:.8rem;">García, Martín</div>
+                                        <div class="ui-sub">Psicología · 50 min</div>
+                                    </div>
+                                    <span class="ui-chip chip-green">Confirmado</span>
+                                </div>
+                            </div>
+
+                            <div style="display:flex;gap:8px;align-items:stretch;margin-bottom:8px;">
+                                <div
+                                    style="font-size:.72rem;color:var(--s400);width:42px;flex-shrink:0;padding-top:12px;text-align:right;">
+                                    10:00</div>
+                                <div class="ui-row" style="flex:1;margin:0;">
+                                    <div class="ui-av"
+                                        style="background:#fce7f3;color:#be185d;width:30px;height:30px;font-size:.7rem;">
+                                        SR
+                                    </div>
+                                    <div class="ui-info">
+                                        <div class="ui-name" style="font-size:.8rem;">Rodríguez, Sofía</div>
+                                        <div class="ui-sub">Fonoaudiología · 45 min</div>
+                                    </div>
+                                    <span class="ui-chip chip-green">Confirmado</span>
+                                </div>
+                            </div>
+
+                            <div style="display:flex;gap:8px;align-items:stretch;margin-bottom:8px;">
+                                <div
+                                    style="font-size:.72rem;color:var(--s400);width:42px;flex-shrink:0;padding-top:12px;text-align:right;">
+                                    14:30</div>
+                                <div class="ui-row" style="flex:1;margin:0;">
+                                    <div class="ui-av"
+                                        style="background:#fef9c3;color:#854d0e;width:30px;height:30px;font-size:.7rem;">
+                                        LV
+                                    </div>
+                                    <div class="ui-info">
+                                        <div class="ui-name" style="font-size:.8rem;">Vidal, Lucas</div>
+                                        <div class="ui-sub">Psicología · 50 min</div>
+                                    </div>
+                                    <span class="ui-chip chip-amber">Pendiente</span>
+                                </div>
+                            </div>
+
+                            <div style="display:flex;gap:8px;align-items:stretch;">
+                                <div
+                                    style="font-size:.72rem;color:var(--s400);width:42px;flex-shrink:0;padding-top:12px;text-align:right;">
+                                    16:00</div>
+                                <div class="ui-row" style="flex:1;margin:0;border-style:dashed;background:var(--s50);">
+                                    <div
+                                        style="width:30px;height:30px;border:1.5px dashed var(--s300);border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--s400)"
+                                            stroke-width="2.5">
+                                            <line x1="12" y1="5" x2="12" y2="19" />
+                                            <line x1="5" y1="12" x2="19" y2="12" />
+                                        </svg>
+                                    </div>
+                                    <div class="ui-info">
+                                        <div class="ui-name" style="font-size:.8rem;color:var(--s400);">Horario libre
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════ VENTAJAS ══ -->
+    <section id="ventajas" class="section">
+        <div class="wrap">
+            <div class="ventajas-inner">
+                <div>
+                    <span class="eyebrow reveal"><span class="eyebrow-dot"></span>¿Por qué Sendero?</span>
+                    <h2 class="display h2 reveal">No es solo otra<br><em>app de notas</em></h2>
+                    <p class="lead reveal" data-delay="1">Sendero fue construido desde cero por y para profesionales de
+                        la salud
+                        mental. No adaptamos una herramienta genérica — la diseñamos para vos.</p>
+                    <ul class="v-list">
+                        <li class="reveal" data-delay="2">
+                            <div class="v-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.8" stroke-linecap="round">
+                                    <path d="M9 11l3 3L22 4" />
+                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                                </svg></div>
+                            <div>
+                                <div class="v-title">Flujos clínicos reales</div>
+                                <p class="v-desc">Cada pantalla fue pensada en cómo trabaja un profesional de salud
+                                    mental, no cómo
+                                    trabaja un administrativo.</p>
+                            </div>
+                        </li>
+                        <li class="reveal" data-delay="3">
+                            <div class="v-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.8" stroke-linecap="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </svg></div>
+                            <div>
+                                <div class="v-title">Privacidad por diseño</div>
+                                <p class="v-desc">Cada profesional ve solo sus datos. Las notas confidenciales están
+                                    cifradas y
+                                    protegidas por rol.</p>
+                            </div>
+                        </li>
+                        <li class="reveal" data-delay="4">
+                            <div class="v-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="1.8" stroke-linecap="round">
+                                    <rect x="5" y="2" width="14" height="20" rx="2" />
+                                    <line x1="12" y1="18" x2="12.01" y2="18" />
+                                </svg></div>
+                            <div>
+                                <div class="v-title">Mobile-first, siempre</div>
+                                <p class="v-desc">Anotá una sesión desde tu celular entre pacientes. Todo sincroniza al
+                                    instante en
+                                    todos tus dispositivos.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Comparison table -->
+                <div class="reveal" data-delay="2">
+                    <div class="compare-card">
+                        <div class="compare-header">
+                            <div class="compare-col-label">Función</div>
+                            <div class="compare-col-label">Soluciones actuales</div>
+                            <div class="compare-col-label highlight">Sendero</div>
+                        </div>
+
+                        <div class="compare-row">
+                            <div class="compare-cell feat">Fichas clínicas completas</div>
+                            <div class="compare-cell partial"><svg width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="12" y1="8" x2="12" y2="12" />
+                                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                                </svg></div>
+                            <div class="compare-cell yes"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg></div>
+                        </div>
+                        <div class="compare-row">
+                            <div class="compare-cell feat">Multi-profesional por paciente</div>
+                            <div class="compare-cell no"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.5">
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                </svg></div>
+                            <div class="compare-cell yes"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg></div>
+                        </div>
+                        <div class="compare-row">
+                            <div class="compare-cell feat">Notas confidenciales por rol</div>
+                            <div class="compare-cell no"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.5">
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                </svg></div>
+                            <div class="compare-cell yes"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg></div>
+                        </div>
+                        <div class="compare-row">
+                            <div class="compare-cell feat">Hitos clínicos</div>
+                            <div class="compare-cell no"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.5">
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                </svg></div>
+                            <div class="compare-cell yes"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg></div>
+                        </div>
+                        <div class="compare-row">
+                            <div class="compare-cell feat">Agenda integrada</div>
+                            <div class="compare-cell partial"><svg width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="12" y1="8" x2="12" y2="12" />
+                                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                                </svg></div>
+                            <div class="compare-cell yes"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg></div>
+                        </div>
+                        <div class="compare-row">
+                            <div class="compare-cell feat">Dashboard de evolución</div>
+                            <div class="compare-cell no"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.5">
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                </svg></div>
+                            <div class="compare-cell yes"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════ FAQ ══ -->
+    <section id="faq" class="section">
+        <div class="wrap">
+            <div class="faq-header">
+                <span class="eyebrow"><span class="eyebrow-dot"></span>Preguntas frecuentes</span>
+                <h2 class="display h2 reveal">Todo lo que<br><em>necesitás saber</em></h2>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-q">
+                        ¿Qué incluye la demo?
+                        <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg></span>
+                    </button>
+                    <div class="faq-a">La demo es una sesión personalizada donde te mostramos la plataforma completa
+                        adaptada a tu
+                        perfil profesional. Podés hacer todas las preguntas que quieras, no hay obligación de contratar
+                        y no te
+                        pedimos tarjeta de crédito.</div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-q">
+                        ¿Es seguro guardar información clínica en Sendero?
+                        <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg></span>
+                    </button>
+                    <div class="faq-a">Sí. Toda la información está encriptada tanto en tránsito como en reposo. Cada
+                        profesional
+                        accede solo a sus propios datos. Las notas confidenciales tienen una capa adicional de
+                        protección por rol.
+                        Nunca compartimos ni vendemos información de ningún tipo.</div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-q">
+                        ¿Puedo usarlo solo, sin un equipo?
+                        <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg></span>
+                    </button>
+                    <div class="faq-a">Completamente. Sendero está diseñado tanto para profesionales individuales como
+                        para
+                        equipos. Si trabajás solo, tenés acceso completo a todos los módulos: pacientes, sesiones,
+                        hitos, dashboard
+                        y agenda.</div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-q">
+                        ¿Funciona desde el celular?
+                        <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg></span>
+                    </button>
+                    <div class="faq-a">Sí, Sendero fue diseñado mobile-first. Funciona perfectamente desde tu celular,
+                        tablet o
+                        computadora. No necesitás instalar nada — accedés desde el navegador de cualquier dispositivo.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-q">
+                        ¿Puedo migrar mis datos existentes?
+                        <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg></span>
+                    </button>
+                    <div class="faq-a">Sí. Durante la demo te explicamos las opciones de importación disponibles.
+                        Podemos ayudarte
+                        a migrar fichas de pacientes y datos básicos desde planillas u otros formatos. El equipo de
+                        onboarding te
+                        acompaña en el proceso.</div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-q">
+                        ¿Qué pasa si trabajo con colegas de diferentes especialidades?
+                        <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg></span>
+                    </button>
+                    <div class="faq-a">Es uno de los casos de uso más comunes y para el que Sendero está especialmente
+                        diseñado.
+                        Un mismo paciente puede ser atendido por psicólogo, psicopedagogo, fonoaudiólogo, terapista
+                        ocupacional y
+                        más — cada uno con su espacio privado y acceso compartido solo a lo que corresponde.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════ CTA FINAL ══ -->
+    <section id="cta-final">
+        <div class="cta-mesh"></div>
+        <div class="cta-grid"></div>
+        <div class="wrap">
+            <div class="cta-inner-wrap reveal">
+                <span class="eyebrow"
+                    style="color:var(--g300);background:rgb(255 255 255/.06);border-color:rgb(255 255 255/.12);">
+                    <span class="eyebrow-dot" style="background:var(--g400)"></span>
+                    Sin costo de setup · Demo personalizada
+                </span>
+                <h2 class="cta-title">Empezá a trabajar diferente.<br><em>Pedí tu demo hoy.</em></h2>
+                <p class="cta-sub">Una llamada de 30 minutos donde te mostramos todo. Sin presiones, sin letra chica,
+                    sin
+                    tarjeta de crédito.</p>
+                <div class="cta-btns">
+                    <a href="mailto:hola@sendero.app?subject=Quiero%20una%20demo%20de%20Sendero"
+                        class="btn btn-white btn-lg">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                            <polyline points="22,6 12,13 2,6" />
+                        </svg>
+                        Escribir por email
+                    </a>
+                    <a href="https://wa.me/542974739556?text=Hola%2C%20me%20interesa%20conocer%20Sendero.%20Quiero%20pedir%20una%20demo."
+                        class="btn btn-ghost-white btn-lg">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round">
+                            <path
+                                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                        </svg>
+                        Hablar por WhatsApp
+                    </a>
+                </div>
+                <div class="cta-contact">
+                    <div class="cta-contact-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        Respuesta en menos de 24 hs
+                    </div>
+                    <div class="cta-contact-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        Demo 100% gratuita
+                    </div>
+                    <div class="cta-contact-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        Sin compromiso
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════ FOOTER ══ -->
+    <footer>
+        <div class="wrap">
+            <div class="footer-inner">
+                <div class="footer-brand">Sendero<span
+                        style="display:inline-block;width:5px;height:5px;background:var(--g500);border-radius:50%;margin-left:2px;vertical-align:middle;margin-bottom:2px;"></span>
+                </div>
+                <p class="footer-copy">© 2025 Sendero · Gestión clínica para profesionales de la salud mental</p>
+                <ul class="footer-links">
+                    <li><a href="#dolor">El problema</a></li>
+                    <li><a href="#features">Funciones</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // ── Nav scroll
+        const nav = document.getElementById('nav');
+        const navGhost = document.getElementById('nav-ghost');
+        const navCta = document.getElementById('nav-cta-btn');
+        window.addEventListener('scroll', () => {
+            const solid = window.scrollY > 50;
+            nav.classList.toggle('solid', solid);
+            if (solid) { navGhost.style.display = 'none'; navCta.style.display = 'flex'; }
+            else { navGhost.style.display = 'flex'; navCta.style.display = 'none'; }
+        }, { passive: true });
+
+        // ── Scroll reveal
+        const revealObs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); } });
+        }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+        // ── Feature tabs
+        document.querySelectorAll('.ftab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.fpanel').forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                const panel = document.getElementById('panel-' + tab.dataset.panel);
+                if (panel) panel.classList.add('active');
+            });
+        });
+
+        // ── FAQ accordion
+        document.querySelectorAll('.faq-q').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.closest('.faq-item');
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+                if (!isOpen) item.classList.add('open');
+            });
+        });
+
+        // ── Preview screen tabs
+        document.querySelectorAll('.ptab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.pscreen').forEach(s => s.classList.remove('active'));
+                tab.classList.add('active');
+                const screen = document.getElementById('pscreen-' + tab.dataset.screen);
+                if (screen) screen.classList.add('active');
+            });
+        });
+
+        // ── Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const t = document.querySelector(a.getAttribute('href'));
+                if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
