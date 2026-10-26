@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600&display=swap"
         rel="stylesheet" />
 
     <style>
@@ -23,17 +23,17 @@
         }
 
         :root {
-            --g50: #edfaf4;
-            --g100: #d3f4e6;
-            --g200: #a9e8cd;
-            --g300: #6fd5ae;
-            --g400: #3aba8a;
-            --g500: #22a076;
-            --g600: #1a8361;
-            --g700: #16684d;
-            --g800: #12523d;
-            --g900: #0e4331;
-            --g950: #082b20;
+            --g50: #f5f7f8;
+            --g100: #edf1f4;
+            --g200: #cbd7df;
+            --g300: #9fb5c4;
+            --g400: #7398b1;
+            --g500: #507d9e;
+            --g600: #3f6c91;
+            --g700: #315878;
+            --g800: #254562;
+            --g900: #172f47;
+            --g950: #101f33;
 
             --s50: #f8fafc;
             --s100: #f1f5f9;
@@ -50,8 +50,8 @@
             --amber: #f59e0b;
             --red: #ef4444;
 
-            --serif: 'Cormorant', Georgia, serif;
-            --sans: 'Outfit', system-ui, sans-serif;
+            --serif: 'IBM Plex Serif', Georgia, serif;
+            --sans: 'IBM Plex Sans', system-ui, sans-serif;
 
             --r-sm: 8px;
             --r-md: 12px;
@@ -300,27 +300,27 @@
         }
 
         .nav-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
             font-family: var(--serif);
             font-size: 1.6rem;
             font-weight: 600;
             color: #fff;
-            letter-spacing: -.02em;
+            letter-spacing: 0;
             transition: color .3s;
+        }
+
+        .nav-logo-mark {
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
+            display: block;
+            object-fit: contain;
         }
 
         #nav.solid .nav-logo {
             color: var(--s900);
-        }
-
-        .nav-logo-dot {
-            display: inline-block;
-            width: 7px;
-            height: 7px;
-            background: var(--g400);
-            border-radius: 50%;
-            margin-left: 2px;
-            vertical-align: middle;
-            margin-bottom: 4px;
         }
 
         .nav-links {
@@ -378,9 +378,9 @@
             position: absolute;
             inset: 0;
             background:
-                radial-gradient(ellipse 60% 70% at 80% 20%, rgb(26 131 97/.4) 0%, transparent 60%),
-                radial-gradient(ellipse 50% 60% at 10% 80%, rgb(14 67 49/.6) 0%, transparent 55%),
-                radial-gradient(ellipse 40% 40% at 50% 50%, rgb(22 160 118/.15) 0%, transparent 50%);
+                radial-gradient(ellipse 60% 70% at 80% 20%, rgb(80 125 158/.38) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 60% at 10% 80%, rgb(37 69 98/.58) 0%, transparent 55%),
+                radial-gradient(ellipse 40% 40% at 50% 50%, rgb(63 108 145/.18) 0%, transparent 50%);
         }
 
         /* Grid pattern overlay */
@@ -416,11 +416,51 @@
 
         @media (max-width: 900px) {
             .hero-body {
-                grid-template-columns: 1fr;
+                grid-template-columns: minmax(0, 1fr);
                 gap: 40px;
+                padding-top: 96px;
+                padding-bottom: 64px;
             }
 
             .hero-visual {
+                display: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            #hero {
+                min-height: auto;
+            }
+
+            .hero-body {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .hero-title {
+                font-size: 2.45rem;
+                overflow-wrap: break-word;
+            }
+
+            .hero-sub {
+                max-width: 100%;
+            }
+
+            .hero-actions {
+                margin-bottom: 32px;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+                justify-content: center;
+                white-space: normal;
+            }
+
+            .hero-proof {
+                flex-wrap: wrap;
+            }
+
+            .hero-proof .hero-sep {
                 display: none;
             }
         }
@@ -1215,8 +1255,10 @@
 
         .roles-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
+            max-width: 780px;
+            margin: 0 auto;
         }
 
         @media (max-width: 768px) {
@@ -1471,12 +1513,17 @@
         }
 
         .app-sidebar-logo {
-            font-family: var(--serif);
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #fff;
+            height: 48px;
             padding: 4px 12px 16px;
-            letter-spacing: -.01em;
+            color: #fff;
+        }
+
+        .app-sidebar-logo::before {
+            content: "";
+            display: block;
+            width: 30px;
+            height: 30px;
+            background: url("assets/sendero-logo.png") center/contain no-repeat;
         }
 
         .app-sidebar-logo span {
@@ -2087,7 +2134,8 @@
     <nav id="nav">
         <div class="wrap">
             <div class="nav-wrap">
-                <a href="#hero" class="nav-logo">Sendero<span class="nav-logo-dot"></span></a>
+                <a href="#hero" class="nav-logo" aria-label="Sendero, inicio"><img src="assets/sendero-logo.png"
+                        class="nav-logo-mark" alt="" /><span>Sendero</span></a>
 
                 <ul class="nav-links">
                     <li><a href="#dolor">El problema</a></li>
@@ -2148,7 +2196,7 @@
                                 stroke-width="2.5" stroke-linecap="round">
                                 <path d="M5 12h14M12 5l7 7-7 7" />
                             </svg>
-                            Solicitar demo gratis
+                            Probar Sendero gratis por 30 días
                         </a>
                         <a href="#features" class="btn btn-ghost-white btn-lg">Ver funciones</a>
                     </div>
@@ -2159,7 +2207,7 @@
                                 stroke-width="2.5">
                                 <polyline points="20 6 9 17 4 12" />
                             </svg>
-                            Sin costo de setup
+                            30 días sin tarjeta de crédito
                         </div>
                         <span class="hero-sep"></span>
                         <div class="hero-proof-item">
@@ -2451,8 +2499,57 @@
                         </div>
                         <div class="ftab-text">
                             <div class="ftab-name">Dashboard y evolución</div>
-                            <div class="ftab-desc">Línea de tiempo, gráficos de progreso y reportes del paciente
-                                exportables.</div>
+                            <div class="ftab-desc">Resumen general, gráficos de barras por estado de sesión y reportes
+                                en PDF con previsualización antes de descargar.</div>
+                        </div>
+                    </div>
+
+                    <div class="ftab" data-panel="riesgo">
+                        <div class="ftab-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round">
+                                <path d="M12 9v4" />
+                                <path d="M12 17h.01" />
+                                <path
+                                    d="M10.3 3.6 2.7 17a2 2 0 0 0 1.7 3h15.2a2 2 0 0 0 1.7-3L13.7 3.6a2 2 0 0 0-3.4 0Z" />
+                            </svg>
+                        </div>
+                        <div class="ftab-text">
+                            <div class="ftab-name">Riesgo clínico</div>
+                            <div class="ftab-desc">Estado visible por paciente, compartido con el equipo y auditable en
+                                cada cambio.</div>
+                        </div>
+                    </div>
+
+                    <div class="ftab" data-panel="escalas">
+                        <div class="ftab-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round">
+                                <path d="M3 3v18h18" />
+                                <path d="m7 16 4-4 3 3 5-7" />
+                            </svg>
+                        </div>
+                        <div class="ftab-text">
+                            <div class="ftab-name">Escalas clínicas estandarizadas</div>
+                            <div class="ftab-desc">PHQ-9 y GAD-7 con seguimiento longitudinal y evolución gráfica por
+                                paciente.</div>
+                        </div>
+                    </div>
+
+                    <div class="ftab" data-panel="derivacion">
+                        <div class="ftab-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round">
+                                <path d="M16 3h5v5" />
+                                <path d="M4 20 21 3" />
+                                <path d="M15 21h6v-6" />
+                                <path d="M3 15v6h6" />
+                            </svg>
+                        </div>
+                        <div class="ftab-text">
+                            <div class="ftab-name">Derivación entre profesionales</div>
+                            <div class="ftab-desc">Transferencia completa o seguimiento compartido, con motivo, contexto
+                                e historial.</div>
                         </div>
                     </div>
 
@@ -2592,9 +2689,9 @@
                     <div class="fpanel" id="panel-dashboard">
                         <span class="fpanel-tag">Módulo 4</span>
                         <div class="fpanel-title">Dashboard y evolución</div>
-                        <p class="fpanel-desc">Visualizá el progreso de cada paciente de un vistazo. Gráficos de
-                            evolución, línea de
-                            tiempo y reportes listos para presentar o archivar.</p>
+                        <p class="fpanel-desc">Visualizá el progreso de cada paciente y revisá el resumen general antes
+                            de exportarlo. Los reportes en PDF incluyen gráficos de barras con sesiones realizadas,
+                            canceladas y ausencias.</p>
                         <ul class="fpanel-list">
                             <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2.5">
@@ -2603,11 +2700,76 @@
                             <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2.5">
                                     <polyline points="20 6 9 17 4 12" />
-                                </svg>Gráficos de progreso por objetivo</li>
+                                </svg>Gráficos de barras de sesiones realizadas, canceladas y ausencias</li>
                             <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2.5">
                                     <polyline points="20 6 9 17 4 12" />
-                                </svg>Reportes exportables en PDF</li>
+                                </svg>Previsualización del resumen y descarga manual a PDF</li>
+                        </ul>
+                    </div>
+
+                    <div class="fpanel" id="panel-riesgo">
+                        <span class="fpanel-tag">Riesgo clínico</span>
+                        <div class="fpanel-title">Una señal compartida y siempre visible</div>
+                        <p class="fpanel-desc">Cada paciente puede tener un estado de riesgo visible para el equipo: sin
+                            evaluar, sin riesgo, bajo, moderado o alto. El estado se registra junto con su historial
+                            completo de auditoría.</p>
+                        <ul class="fpanel-list">
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Estado visible a nivel paciente</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Estados compartidos entre el equipo</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Auditoría de responsable, fecha y cambio</li>
+                        </ul>
+                    </div>
+
+                    <div class="fpanel" id="panel-escalas">
+                        <span class="fpanel-tag">Escalas estandarizadas</span>
+                        <div class="fpanel-title">Medición consistente en el tiempo</div>
+                        <p class="fpanel-desc">Aplicá PHQ-9 y GAD-7 en las sesiones que correspondan y seguí la
+                            evolución de los puntajes de cada paciente.</p>
+                        <ul class="fpanel-list">
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>PHQ-9 para seguimiento de depresión</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>GAD-7 para seguimiento de ansiedad</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Gráfico longitudinal de puntajes por paciente</li>
+                        </ul>
+                    </div>
+
+                    <div class="fpanel" id="panel-derivacion">
+                        <span class="fpanel-tag">Derivación clínica</span>
+                        <div class="fpanel-title">Continuidad entre colegas</div>
+                        <p class="fpanel-desc">Derivá un paciente a otro profesional con motivo y nota de contexto.
+                            Elegí entre transferencia completa o seguimiento compartido, y conservá el historial
+                            auditable de cada derivación.</p>
+                        <ul class="fpanel-list">
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Motivo y contexto de derivación</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Transferencia completa o seguimiento compartido</li>
+                            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>Historial auditable de cada movimiento</li>
                         </ul>
                     </div>
 
@@ -2765,28 +2927,18 @@
                     <div class="role-n">02</div>
                     <div class="role-name">Supervisado</div>
                     <span class="role-tag">Acceso configurable</span>
-                    <p class="role-desc">Profesional en formación. El titular define exactamente qué puede ver y hacer.
+                    <p class="role-desc">Puede leer las sesiones de su supervisado, pero no editarlas. Puede dejar
+                        devoluciones con historial, sin acceder a notas confidenciales.
                     </p>
                     <ul class="role-perms">
-                        <li><span class="rp-dot"></span>Permisos definidos por titular</li>
-                        <li><span class="rp-dot"></span>Puede registrar sus sesiones</li>
+                        <li><span class="rp-dot"></span>Lectura de sesiones supervisadas</li>
+                        <li><span class="rp-dot"></span>Comentarios de devolución</li>
+                        <li><span class="rp-dot"></span>Historial de devoluciones</li>
                         <li><span class="rp-dot"></span>Sin acceso a notas confidenciales</li>
-                        <li><span class="rp-dot"></span>Ideal para residencias y pasantías</li>
                     </ul>
                 </div>
 
-                <div class="role-card reveal" data-delay="2">
-                    <div class="role-n">03</div>
-                    <div class="role-name">Secretaria</div>
-                    <span class="role-tag">Agenda y datos básicos</span>
-                    <p class="role-desc">Gestiona la parte administrativa sin acceder a información clínica privada.</p>
-                    <ul class="role-perms">
-                        <li><span class="rp-dot"></span>Gestiona turnos y agenda</li>
-                        <li><span class="rp-dot"></span>Datos básicos del paciente</li>
-                        <li><span class="rp-dot"></span>Lista de espera</li>
-                        <li><span class="rp-dot"></span>Sin acceso a notas clínicas</li>
-                    </ul>
-                </div>
+
             </div>
         </div>
     </section>
@@ -3369,6 +3521,19 @@
             <div class="faq-list">
                 <div class="faq-item">
                     <button class="faq-q">
+                        ¿Cómo funciona el precio?
+                        <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg></span>
+                    </button>
+                    <div class="faq-a">El precio se cotiza según la institución y la configuración de uso. Cuando varios
+                        profesionales trabajan en el mismo lugar, el costo por profesional puede ser menor.</div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-q">
                         ¿Qué incluye la demo?
                         <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2.5">
@@ -3475,12 +3640,11 @@
                 <span class="eyebrow"
                     style="color:var(--g300);background:rgb(255 255 255/.06);border-color:rgb(255 255 255/.12);">
                     <span class="eyebrow-dot" style="background:var(--g400)"></span>
-                    Sin costo de setup · Demo personalizada
+                    30 días de prueba gratis · Sin tarjeta de crédito
                 </span>
                 <h2 class="cta-title">Empezá a trabajar diferente.<br><em>Pedí tu demo hoy.</em></h2>
-                <p class="cta-sub">Una llamada de 30 minutos donde te mostramos todo. Sin presiones, sin letra chica,
-                    sin
-                    tarjeta de crédito.</p>
+                <p class="cta-sub">Probá Sendero durante 30 días, sin tarjeta de crédito. El precio se cotiza según la
+                    institución y puede ser menor por profesional cuando trabajan varios en el mismo lugar.</p>
                 <div class="cta-btns">
                     <a href="mailto:hola@sendero.app?subject=Quiero%20una%20demo%20de%20Sendero"
                         class="btn btn-white btn-lg">
@@ -3514,7 +3678,7 @@
                             stroke-width="2">
                             <polyline points="20 6 9 17 4 12" />
                         </svg>
-                        Demo 100% gratuita
+                        30 días de prueba gratis
                     </div>
                     <div class="cta-contact-item">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -3533,8 +3697,8 @@
     <footer>
         <div class="wrap">
             <div class="footer-inner">
-                <div class="footer-brand">Sendero<span
-                        style="display:inline-block;width:5px;height:5px;background:var(--g500);border-radius:50%;margin-left:2px;vertical-align:middle;margin-bottom:2px;"></span>
+                <div class="footer-brand"><img src="assets/sendero-logo.png" alt=""
+                        style="width:34px;height:34px;margin-right:8px;vertical-align:middle;" />Sendero
                 </div>
                 <p class="footer-copy">© 2025 Sendero · Gestión clínica para profesionales de la salud mental</p>
                 <ul class="footer-links">
